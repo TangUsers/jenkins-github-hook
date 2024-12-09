@@ -18,7 +18,7 @@ jobs:
 
         - # 将base64解码后的私钥写入文件
           name: Write WireGuard Config
-          run: echo "${{ secrets.WG_CONFIG }}" | base64 -d > /tmp/wg0.conf
+          run: echo "${{ secrets.WG_CLIENT }}" | base64 -d > /tmp/wg0.conf
         # 使用wg连接上私有的网络
         - name: Set up WireGuard Connection
           uses: niklaskeerl/easy-wireguard-action@v2
