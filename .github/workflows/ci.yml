@@ -28,6 +28,7 @@ jobs:
             run: |
               sudo ip link add wg0 type wireguard
               sudo ip address add 10.0.8.10/24 dev wg0
+              sudo wg set wg0 listen-port 51820
               sudo ip link set wg0 up
               sudo wg set wg0 private-key private.key
 
@@ -39,7 +40,13 @@ jobs:
               persistent-keepalive 25
           - name: Show WireGuard Interface
             run: sudo wg show wg0
-              
+          
+          - name: Configure Firewall
+            run: |
+              sudo iptables -A INPUT -p udp --dport 51820 -j ACCEPT
+              sudo iptables -A FORWARD -i wg0 -j ACCEPT
+              sudo iptables -A FORWARD -o wg0 -j ACCEPT
+              sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
     
           # 等待 5 个小时
           - name: Wait 4h no1
