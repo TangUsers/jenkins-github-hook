@@ -16,21 +16,16 @@ jobs:
     
         steps:
 
-        - # 将base64解码后的私钥写入文件
-          name: Write WireGuard Config
-          run: echo "${{ secrets.WG_CLIENT }}" | base64 -d > /tmp/wg0.conf
-        # 使用wg连接上私有的网络
-        - # 查看配置文件
-          name: Show WireGuard Config
-          run: cat /tmp/wg0.conf
-        - name: Set up WireGuard Connection
-          uses: niklaskeerl/easy-wireguard-action@v2
+        - name: Set up WireGuard
+          uses: egor-tensin/setup-wireguard@v1
           with:
-            WG_CONFIG_FILE: /tmp/wg0.conf
-        - uses: wangsijie/setup-v2ray@v1
-          with:
-            config-base64: "${{ secrets.V2RAY_SERVER }}"
-
+            endpoint: '${{ secrets.ENDPOINT }}'
+            endpoint_public_key: '${{ secrets.ENDPOINT_PUBLIC }}'
+            ips: '${{ secrets.IPS }}'
+            allowed_ips: '${{ secrets.ALLOWED_IPS }}'
+            private_key: '${{ secrets.PRIVATE }}'
+            preshared_key: '${{ secrets.PRESHARED }}'
+    
         # 等待 5 个小时
         - name: Wait 4h no1
           run: sleep 14400
