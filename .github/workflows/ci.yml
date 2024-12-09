@@ -33,5 +33,6 @@ jobs:
           - name: Start OpenVPN
             run: sudo openvpn --config client.ovpn &
 
-          - name: ping
-            run: ping -c 5 192.168.10.1
+          # 休眠 4个小时
+          - name: Sleep
+            run: sleep 4h
