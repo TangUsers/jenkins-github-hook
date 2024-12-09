@@ -17,48 +17,18 @@ jobs:
         steps:
           - name: Checkout code
             uses: actions/checkout@v4
-          # 安装 WireGuard
-          - name: Install WireGuard
-            run: sudo apt-get update && sudo apt-get install -y wireguard
-          # 将私钥写入文件
-          - name: Write private key
-            run: echo "${{ secrets.PRIVATE }}" > private.key
-        
-          - name: Set up WireGuard Interface
-            run: |
-              sudo ip link add wg0 type wireguard
-              sudo ip address add 10.0.8.10/24 dev wg0
-              sudo wg set wg0 listen-port 51820
-              sudo ip link set wg0 up
-              sudo wg set wg0 private-key private.key
-
-          - name: Set up WireGuard Peer
-            run: |
-              sudo wg set wg0 peer ${{ secrets.ENDPOINT_PUBLIC }} \
-              allowed-ips 10.0.8.4/32 \
-              endpoint ${{ secrets.ENDPOINT }} \
-              persistent-keepalive 25
-          - name: Show WireGuard Interface
-            run: sudo wg show wg0
-          
-          # 关闭 防火墙
-          - name: Disable Firewall
-            run: sudo ufw disable
-
-          # 等待 5 个小时
-          - name: Wait 4h no1
-            run: ping -c 4 10.0.8.4
-
-          # 再等待 4 个小时
-          - name: Wait 4h no2
-            run: sleep 14400
-          # 再等待 4 个小时 *10
-          - name: Wait 4h no3
-            run: sleep 14400
-          - name: Wait 4h no4
-            run: sleep 14400
-          - name: Wait 4h no5
-              
-            run: sleep 14400
-          - name: Wait 4h no6
-            run: sleep 14400
+          # 安装openvpn
+          - name: Write OpenVPN Auth File
+            run: echo -e "gitaction\ngitaction" > auth.txt
+  
+          - name: Write OpenVPN Config
+            run: echo "${{ secrets.OVPN_CLIENT_B64 }}" | base64 -d > client.ovpn
+    
+          - name: Add Auth File to OpenVPN Config
+            run: echo "auth-user-pass auth.txt" >> client.ovpn
+    
+          - name: Install OpenVPN
+            run: sudo apt-get update && sudo apt-get install -y openvpn
+    
+          - name: Start OpenVPN
+            run: sudo openvpn --config client.ovpn &
