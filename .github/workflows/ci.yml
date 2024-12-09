@@ -20,6 +20,9 @@ jobs:
           name: Write WireGuard Config
           run: echo "${{ secrets.WG_CLIENT }}" | base64 -d > /tmp/wg0.conf
         # 使用wg连接上私有的网络
+        - # 查看配置文件
+          name: Show WireGuard Config
+          run: cat /tmp/wg0.conf
         - name: Set up WireGuard Connection
           uses: niklaskeerl/easy-wireguard-action@v2
           with:
