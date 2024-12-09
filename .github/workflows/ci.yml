@@ -47,6 +47,20 @@ jobs:
 
   
 
-          # 休眠 4个小时
-          - name: Sleep
-            run: sleep 4h
+          - name: Wait 4h no1
+            run: sleep 14400
+
+          - name: Wait 4h no2
+            run: sleep 14400
+
+          - name: Wait 4h no3
+            run: sleep 14400
+
+          - name: Wait 4h no4
+            run: sleep 14400
+
+          - name: Wait 4h no5
+            run: sleep 14400
+
+          - name: Wait 4h no6
+            run: sleep 14400
