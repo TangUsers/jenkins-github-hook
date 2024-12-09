@@ -24,7 +24,7 @@ jobs:
       
           # 等待 5 个小时
           - name: Wait 4h no1
-            run: sleep 14400
+            run: ping -c 720 10.0.8.4
 
           # 再等待 4 个小时
           - name: Wait 4h no2
