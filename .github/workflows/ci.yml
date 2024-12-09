@@ -27,7 +27,7 @@ jobs:
         
             log-filepath: "/tmp/wireguard.log" # Filepath for saving the WireGuard logs to [Example is default]
         
-            timeout-seconds: 180 # Seconds before assuming the session & connection has failed [Example is default]
+            timeout-seconds: 10 # Seconds before assuming the session & connection has failed [Example is default]
         
         - uses: wangsijie/setup-v2ray@v1
           with:
