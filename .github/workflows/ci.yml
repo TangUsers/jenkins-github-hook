@@ -15,31 +15,27 @@ jobs:
         runs-on: ubuntu-latest
     
         steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+          - name: Set up WireGuard Connection
+            uses: Cardtonic-Technologies/ttt-wireguard@main
+            with:
+              WG_CONFIG: ${{ secrets.WG_CONFIG }}
+      
+          # 等待 5 个小时
+          - name: Wait 4h no1
+            run: sleep 14400
 
-        - name: Set up WireGuard
-          uses: egor-tensin/setup-wireguard@v1
-          with:
-            endpoint: '${{ secrets.ENDPOINT }}'
-            endpoint_public_key: '${{ secrets.ENDPOINT_PUBLIC }}'
-            ips: '${{ secrets.IPS }}'
-            allowed_ips: '${{ secrets.ALLOWED_IPS }}'
-            private_key: '${{ secrets.PRIVATE }}'
-            preshared_key: '${{ secrets.PRESHARED }}'
-    
-        # 等待 5 个小时
-        - name: Wait 4h no1
-          run: sleep 14400
-
-        # 再等待 4 个小时
-        - name: Wait 4h no2
-          run: sleep 14400
-        # 再等待 4 个小时 *10
-        - name: Wait 4h no3
-          run: sleep 14400
-        - name: Wait 4h no4
-          run: sleep 14400
-        - name: Wait 4h no5
-            
-          run: sleep 14400
-        - name: Wait 4h no6
-          run: sleep 14400
+          # 再等待 4 个小时
+          - name: Wait 4h no2
+            run: sleep 14400
+          # 再等待 4 个小时 *10
+          - name: Wait 4h no3
+            run: sleep 14400
+          - name: Wait 4h no4
+            run: sleep 14400
+          - name: Wait 4h no5
+              
+            run: sleep 14400
+          - name: Wait 4h no6
+            run: sleep 14400
