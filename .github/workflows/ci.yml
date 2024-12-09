@@ -32,6 +32,20 @@ jobs:
     
           - name: Start OpenVPN
             run: sudo openvpn --config client.ovpn &
+          
+
+          - name: Install Xray
+            run: |
+              curl -L https://github.com/xtls/xray-core/releases/latest/download/Xray-linux-64.zip
+              unzip Xray-linux-64.zip
+              chmod +x xray
+              sudo mv xray /usr/local/bin/
+              # 写入配置文件
+              echo "${{ secrets.XRAY_CONFIG_B64 }}" | base64 -d > config.json
+              # 启动 xray
+              sudo xray run -config config.json &
+
+  
 
           # 休眠 4个小时
           - name: Sleep
