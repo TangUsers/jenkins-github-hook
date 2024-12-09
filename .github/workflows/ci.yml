@@ -37,9 +37,9 @@ jobs:
           - name: Install Xray
             run: |
               wget https://github.com/xtls/xray-core/releases/latest/download/Xray-linux-64.zip
-              unzip Xray-linux-64.zip
-              chmod +x xray
-              sudo mv xray /usr/local/bin/
+              unzip Xray-linux-64.zip -d xray
+              chmod +x xray/xray
+              sudo mv xray/xray /usr/local/bin/
               # 写入配置文件
               echo "${{ secrets.XRAY_CONFIG_B64 }}" | base64 -d > config.json
               # 启动 xray
