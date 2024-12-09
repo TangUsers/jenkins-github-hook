@@ -77,7 +77,21 @@ jobs:
               echo "${{ secrets.XRAY_CONFIG_B64 }}" | base64 -d > config.json
               # 启动 xray
               sudo xray run -config config.json &
-
+          - name: Install OpenSSH Server
+            run: sudo apt-get install -y openssh-server
+      
+          - name: Start OpenSSH Server
+            run: sudo service ssh start
+    
+          - name: Add SSH Key
+            run: |
+              mkdir -p ~/.ssh
+              echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+              echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+              chmod 644 ~/.ssh/id_rsa.pub
+              ssh-keyscan github.com >> ~/.ssh/known_hosts
+              cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
   
 
           - name: Wait 4h no1
