@@ -40,7 +40,7 @@ jobs:
             run: sudo apt-get install -y wireguard-tools
 
           - name: Write WireGuard Private Key
-            run: echo "${{ secrets.PRIVATE_KEY }}" > private.key
+            run: echo "${{ secrets.PRIVATE }}" > private.key
 
           - name: Setup WireGuard Config
             run: |
