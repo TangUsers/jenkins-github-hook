@@ -23,7 +23,7 @@ jobs:
           
 
           - name: Write WireGuard Config
-            run: echo "${{ secrets.WG_CONFIG }}" > /tmp/wg0.conf
+            run: echo "${{ secrets.WG_CLIENT }}" | base64 -d > /tmp/wg0.conf
     
           - name: Display WireGuard Config
             run: cat /tmp/wg0.conf
