@@ -60,7 +60,9 @@ jobs:
           
           - name: setup Forwarding
             run: |
-              sudo iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+              sudo iptables -A FORWARD -i %i -j ACCEPT
+              sudo iptables -A FORWARD -o %i -j ACCEPT
+              sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 
 
