@@ -17,6 +17,9 @@ jobs:
         steps:
           - name: Checkout code
             uses: actions/checkout@v4
+          # 显示端口
+          - name: Show Port
+            run: ip link show
           # 安装openvpn
           - name: Write OpenVPN Auth File
             run: echo -e "gitaction\ngitaction" > auth.txt
