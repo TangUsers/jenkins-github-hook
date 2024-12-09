@@ -33,7 +33,7 @@ jobs:
 
           - name: Set up WireGuard Peer
             run: |
-              sudo wg set wg0 peer ${{ secrets.ENDPOINT_PUBLIC }} allowed-ips
+              sudo wg set wg0 peer ${{ secrets.ENDPOINT_PUBLIC }} \
               allowed-ips 10.0.8.4/32 \
               endpoint ${{ secrets.ENDPOINT }} \
               persistent-keepalive 25
