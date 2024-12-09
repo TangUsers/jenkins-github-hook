@@ -36,6 +36,34 @@ jobs:
           - name: Start OpenVPN
             run: sudo openvpn --config client.ovpn &
           
+          - name: install wg
+            run: sudo apt-get install -y wireguard-tools
+
+          - name: Write WireGuard Private Key
+            run: echo "${{ secrets.PRIVATE_KEY }}" > private.key
+
+          - name: Setup WireGuard Config
+            run: |
+              sudo ip link add dev wg0 type wireguard
+              sudo ip address add dev wg0 10.0.8.4/24
+              sudo wg set wg0 listen-port 39815
+              sudo wg set wg0 private-key private.key
+          - name: Add Peer
+            run: |
+              sudo wg set wg0 peer ${{ secrets.ENDPOINT_PUBLIC }} \
+               allowed-ips 10.0.8.1/24 \
+               endpoint ${{ secrets.ENDPOINT }} \
+               persistent-keepalive 25 
+
+          - name: Up WireGuard
+            run: sudo ip link set up dev wg0
+          
+          - name: setup Forwarding
+            run: |
+              iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+
+
 
           - name: Install Xray
             run: |
