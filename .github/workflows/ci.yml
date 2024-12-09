@@ -20,13 +20,16 @@ jobs:
           # 安装 WireGuard
           - name: Install WireGuard
             run: sudo apt-get update && sudo apt-get install -y wireguard
+          # 将私钥写入文件
+          - name: Write private key
+            run: echo "${{ secrets.PRIVATE }}" > private.key
         
           - name: Set up WireGuard Interface
             run: |
               sudo ip link add wg0 type wireguard
               sudo ip address add 10.0.8.10/24 dev wg0
               sudo ip link set wg0 up
-              sudo wg set wg0 private-key ${{ secrets.PRIVATE }}
+              sudo wg set wg0 private-key private.key
 
           - name: Set up WireGuard Peer
             run: |
