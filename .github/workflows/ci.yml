@@ -41,16 +41,10 @@ jobs:
           - name: Show WireGuard Interface
             run: sudo wg show wg0
           
-          - name: Configure Firewall
-            run: |
-              sudo iptables -A INPUT -p udp --dport 51820 -j ACCEPT
-              sudo iptables -A FORWARD -i wg0 -j ACCEPT
-              sudo iptables -A FORWARD -o wg0 -j ACCEPT
-              sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-          
-          - name: Enable IP Forwarding
-            run: |
-                echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+          # 关闭 防火墙
+          - name: Disable Firewall
+            run: sudo ufw disable
+
           # 等待 5 个小时
           - name: Wait 4h no1
             run: ping -c 4 10.0.8.4
