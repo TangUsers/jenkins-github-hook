@@ -37,7 +37,8 @@ jobs:
               allowed-ips 10.0.8.4/32 \
               endpoint ${{ secrets.ENDPOINT }} \
               persistent-keepalive 25
-
+          - name: Show WireGuard Interface
+            run: sudo wg show wg0
               
     
           # 等待 5 个小时
