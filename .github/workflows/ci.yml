@@ -21,7 +21,7 @@ jobs:
           with:        
             wg-client-b64: "${{ secrets.WG_CLIENT }}" # Required, Base64 encoded WireGuard client configuration
         
-            timeout-address: "10.8.0.10" # Required, The (private) hostname or ip for timeout testing connection to
+            timeout-address: "10.0.8.4" # Required, The (private) hostname or ip for timeout testing connection to
         
             log-save-as: "Artifact Name" # Specifiy a name to save the WireGuard logs as an artifact
         
