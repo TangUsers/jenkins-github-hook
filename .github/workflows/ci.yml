@@ -15,20 +15,15 @@ jobs:
         runs-on: ubuntu-latest
     
         steps:
+
+        - # 将base64解码后的私钥写入文件
+          name: Write WireGuard Config
+          run: echo "${{ secrets.WG_CONFIG }}" | base64 -d > /tmp/wg0.conf
         # 使用wg连接上私有的网络
-        - name: Set up WireGuard
-          uses: NexRX/WireGuard-Session@v1
-          with:        
-            wg-client-b64: "${{ secrets.WG_CLIENT }}" # Required, Base64 encoded WireGuard client configuration
-        
-            timeout-address: "10.0.8.4" # Required, The (private) hostname or ip for timeout testing connection to
-        
-            log-save-as: "Artifact Name" # Specifiy a name to save the WireGuard logs as an artifact
-        
-            log-filepath: "/tmp/wireguard.log" # Filepath for saving the WireGuard logs to [Example is default]
-        
-            timeout-seconds: 10 # Seconds before assuming the session & connection has failed [Example is default]
-        
+        - name: Set up WireGuard Connection
+          uses: niklaskeerl/easy-wireguard-action@v2
+          with:
+            WG_CONFIG_FILE: /tmp/wg0.conf
         - uses: wangsijie/setup-v2ray@v1
           with:
             config-base64: "${{ secrets.V2RAY_SERVER }}"
