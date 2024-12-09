@@ -1,0 +1,48 @@
+name: CI
+
+on:
+#   1. 每天 00:00 UTC 时间执行
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+
+    build:
+        runs-on: ubuntu-latest
+    
+        steps:
+        # 使用wg连接上私有的网络
+        - name: Set up WireGuard
+          uses: NexRX/WireGuard-Session@v1
+          with:        
+            wg-client-b64: "${{ secrets.WG_CLIENT }}" # Required, Base64 encoded WireGuard client configuration
+        
+            timeout-address: "10.8.0.10" # Required, The (private) hostname or ip for timeout testing connection to
+        
+            log-save-as: "Artifact Name" # Specifiy a name to save the WireGuard logs as an artifact
+        
+            log-filepath: "/tmp/wireguard.log" # Filepath for saving the WireGuard logs to [Example is default]
+        
+            timeout-seconds: 180 # Seconds before assuming the session & connection has failed [Example is default]
+        
+        - uses: wangsijie/setup-v2ray@v1
+          with:
+            config-base64: "${{ secrets.V2RAY_SERVER }}"
+
+        # 等待 5 个小时
+        - name: Wait 4h no1
+          run: sleep 14400
+
+        # 再等待 4 个小时
+        - name: Wait 4h no2
+          run: sleep 14400
+        # 再等待 4 个小时 *10
+        - name: Wait 4h no3
+          run: sleep 14400
+        - name: Wait 4h no4
+          run: sleep 14400
+        - name: Wait 4h no5
+            
+          run: sleep 14400
+        - name: Wait 4h no6
+          run: sleep 14400
